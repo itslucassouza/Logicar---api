@@ -11,6 +11,10 @@ export class TransactionRepository {
     return this.prismaService.transactions.create(createDto);
   }
 
+  findAll() {
+    return this.prismaService.transactions.findMany()
+  }
+
   findUnique(findUniqueDto: Prisma.TransactionsFindUniqueArgs) {
     return this.prismaService.transactions.findUnique(findUniqueDto);
   }

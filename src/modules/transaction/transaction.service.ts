@@ -62,4 +62,16 @@ export class TransactionService {
         return formatArray;
       }
 
+      async getAllTransactions() {
+        const transactions = await this.transactionRepo.findAll()
+        const vacancies = 50
+
+        const activeCars = transactions.filter((item) => item.exitTime == null)
+
+        return {
+          ativeCars: activeCars,
+          availableVancacies: vacancies - activeCars.length,
+        }
+      }
+
 }
