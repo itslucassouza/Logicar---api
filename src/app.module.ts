@@ -7,7 +7,8 @@ import { ParkingModule } from "./modules/Parking/parking.module";
 
 
 @Module({
-  imports: [UsersModule, DatabaseModule, ParkingModule, CarModule, TransactionModule],
+  imports: [
+    UsersModule, DatabaseModule, ParkingModule, CarModule, TransactionModule],
   controllers: [],
   providers: [],
 })
