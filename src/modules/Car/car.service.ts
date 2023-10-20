@@ -6,6 +6,10 @@ import { CarRepository } from 'src/shared/database/repositories/car.repositories
 export class CarService {
     constructor(private readonly carRepo: CarRepository) {}
 
+    async findAllCars() {
+      return this.carRepo.findAll();
+    }
+
     async createCar(data: CreateCarDto ) {
       const { parkingId, plate, color, conductorName} = data;
 

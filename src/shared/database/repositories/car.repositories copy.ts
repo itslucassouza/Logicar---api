@@ -11,6 +11,10 @@ export class CarRepository {
     return this.prismaService.cars.create(createDto);
   }
 
+  findAll() {
+    return this.prismaService.cars.findMany()
+  }
+
 //   findUnique(findUniqueDto: Prisma.UserFindUniqueArgs) {
 //     return this.prismaService.user.findUnique(findUniqueDto);
 //   }
