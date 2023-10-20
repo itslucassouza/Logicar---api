@@ -69,6 +69,7 @@ export class TransactionService {
         const activeCars = transactions.filter((item) => item.exitTime == null)
 
         return {
+          allTransactions: transactions,
           ativeCars: activeCars,
           availableVancacies: vacancies - activeCars.length,
         }
