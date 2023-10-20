@@ -9,8 +9,6 @@ export class ParkingService {
     async createParking(data: CreateParkingDto ) {
       const { cash, parkingName, userId} = data;
 
-      console.log(cash, parkingName, userId, 'asdasd')
-
       return this.parkingRepo.create({
         data: {
           cash,
