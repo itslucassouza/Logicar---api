@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateCarDto } from './dto/create-car.dto';
 import { CarRepository } from 'src/shared/database/repositories/car.repositories copy';
 import { TransactionService } from '../transaction/transaction.service';
+
+
 
 @Injectable()
 export class CarService {
@@ -54,6 +56,20 @@ export class CarService {
     }
 
     async createCar(data: CreateCarDto ) {
+      const allCars = await this.findAllCars()
+
+      const carAlreadyExists = allCars.filter((item) => item.plate === data.plate)
+        
+      if (carAlreadyExists.length && carAlreadyExists[0]?.status === 'active') {
+        throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Carro Já deu entrada no estacionamento' })
+      } 
+
+      if (carAlreadyExists.length && carAlreadyExists[0].status === 'inactive') {
+        return this.transactionService.createTransaction({
+            carId: carAlreadyExists[0].id
+        })
+      }
+
       const { parkingId, plate, color, conductorName} = data;
 
       return this.carRepo.create({
@@ -63,7 +79,11 @@ export class CarService {
           color,
           conductorName
         }
-      });
+      }).then((data: any) => {
+         this.transactionService.createTransaction({
+           carId: data.id
+       })
+      })
     }
 
 }

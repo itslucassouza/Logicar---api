@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionRepository } from 'src/shared/database/repositories/transaction.repositories';
 
@@ -19,10 +19,14 @@ export class TransactionService {
 
     async updateTransaction(id: string) {
         const item = await this.transactionRepo.findUnique({
-          where: {
-            id
-          }
+       where: {
+        id: id
+       }
         });
+
+        if(item.exitTime !== null) {
+          throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Essa Transação já foi finalizada' })
+        }
 
           const entryTime = new Date(item.entryTime);
           const scheduleNow = new Date();
@@ -46,6 +50,7 @@ export class TransactionService {
             value: currentValue
           }
 
+
           return await this.transactionRepo.updateOne({
             data: {
                id: formatArray.id,
@@ -58,8 +63,6 @@ export class TransactionService {
                 id
             }
           })
-      
-        return formatArray;
       }
 
       async getAllTransactions() {
