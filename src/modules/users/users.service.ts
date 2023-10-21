@@ -34,6 +34,9 @@ export class UsersService {
 
     const nameAlreadyexist = await this.getUserByName(nome["nome"])
 
+    if(nameAlreadyexist.nome !== nome) {
+      throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Credenciais incorretas' })
+    }
 
     if(!nameAlreadyexist || password !== 123) {
       throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Credenciais incorretas' })
