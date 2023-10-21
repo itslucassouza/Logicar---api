@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { SignInUserDTO } from './dto/signIn-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -9,6 +10,11 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
+  }
+
+  @Post('/signin') 
+  signIn(@Body() signInUserDto: SignInUserDTO) {
+    return this.usersService.signin(signInUserDto)
   }
 
   @Delete(':id')

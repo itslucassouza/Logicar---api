@@ -12,6 +12,6 @@ export class UsersRepository {
   }
 
   findUnique(findUniqueDto: Prisma.UserFindUniqueArgs) {
-    return this.prismaService.user.findUnique(findUniqueDto);
+    return this.prismaService.user.findFirst(findUniqueDto);
   }
 }
