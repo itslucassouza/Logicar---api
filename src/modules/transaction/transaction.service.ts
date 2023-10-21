@@ -4,7 +4,9 @@ import { TransactionRepository } from 'src/shared/database/repositories/transact
 
 @Injectable()
 export class TransactionService {
-    constructor(private readonly transactionRepo: TransactionRepository) {}
+    constructor(
+      private readonly transactionRepo: TransactionRepository,
+      ) {}
 
     async createTransaction( data: Partial<CreateTransactionDto> ) {
       const { carId } = data;
@@ -19,9 +21,9 @@ export class TransactionService {
 
     async updateTransaction(id: string) {
         const item = await this.transactionRepo.findUnique({
-       where: {
-        id: id
-       }
+          where: {
+            id: id
+          }
         });
 
         if(item.exitTime !== null) {
@@ -64,6 +66,7 @@ export class TransactionService {
             }
           })
       }
+      
 
       async getAllTransactions() {
         const transactions = await this.transactionRepo.findAll()

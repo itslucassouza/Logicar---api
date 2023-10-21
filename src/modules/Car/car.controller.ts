@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Put, Get, Post, Param } from '@nestjs/common';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dto/create-car.dto';
 
@@ -9,6 +9,11 @@ export class CarController {
   @Get() 
   findAll() {
     return this.carService.findAllCars()
+  }
+
+  @Put('/update-car/:plate') 
+  updateCar(@Param('plate') plate: string) {
+    return this.carService.updateCar(plate)
   }
 
   @Post()

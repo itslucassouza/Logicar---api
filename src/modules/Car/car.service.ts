@@ -86,4 +86,26 @@ export class CarService {
       })
     }
 
+    async updateCar(plate: string) {
+      const allCars = await this.findAllCars()
+
+      const checkPlateCar = allCars.filter((item) => item.plate === plate)
+
+      if(!checkPlateCar.length) {
+        throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Carro não encontrado' })
+      }
+      console.log(checkPlateCar)
+      // @ts-ignore
+      const transactions = checkPlateCar.map((item) => item.transactions)
+
+      const checkIfTransactionAlreadyExist = transactions.filter((item) => item.exitTime === null)
+
+      if(!checkIfTransactionAlreadyExist.length) {
+        throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Essa carro não consta como ativo no cadastro' })
+      }
+
+        return this.transactionService.updateTransaction(checkPlateCar[0].id)
+
+    }
+
 }
