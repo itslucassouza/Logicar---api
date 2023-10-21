@@ -34,7 +34,7 @@ export class UsersService {
 
     const nameAlreadyexist = await this.getUserByName(nome["nome"])
 
-    if(nameAlreadyexist.nome !== nome) {
+    if(nameAlreadyexist.nome.toLocaleLowerCase() !== nome.toLocaleLowerCase()) {
       throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Credenciais incorretas' })
     }
 
